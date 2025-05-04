@@ -8,24 +8,70 @@
 </head>
 
 <body>
-    <header>
-        <h1>Welcome to My Wedding Photo Ver.20250503_1337</h1>
-    </header>
-    <main>
-        <section class="photo-gallery">
-            <img src="./images/kevin-charit-1fL2Q1JcbNc-unsplash.jpg" alt="My Wedding Photo" class="wedding-photo">
-            <p>This is a beautiful moment from my wedding day.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 My Wedding Photo</p>
-    </footer>
+    <div class="container">
+        <div class="title">
+            <div>政毅 & 美含</div>
+            <div>於2025年夏，共結連理</div>
+            <div class="divider"></div>
+        </div>
+        <div class="hero">
+            <div class="hero-image">
+                <img src="./images/transfer_result_max600KB/政毅＆美含-250.jpg" class="hero-img" alt="政毅＆美含-250.jpg">
+            </div>
+            <div class="hero-text">
+                <div class="hero-text-title">We</div>
+                <div class="hero-text-title">Got</div>
+                <div class="hero-text-title">Married.</div>
+                <div class="hero-text-button">
+                    <span class="button">STEP INTO OUR DAY</span>
+                </div>
+            </div>
+        </div>
+        <div class="section1-container">
+            <section class="section1">
+                <div class="title">
+                    <div>Timeless Eleg'ance</div>
+                    <div>A quiet walk, a lifetime promise.</div>
+                </div>
+                <div class="section1-image1">
+                    <div><img src="./images/transfer_result_max600KB/政毅＆美含-118.jpg" /></div>
+                    <div><img src="./images/transfer_result_max600KB/政毅＆美含-133.jpg" /></div>
+                    <div><img src="./images/transfer_result_max600KB/政毅＆美含-142.jpg" /></div>
+                </div>
+                <div class="section1-image2">
+                    <div class="img-container"><img src="./images/transfer_result_max600KB/政毅＆美含-58.jpg" /></div>
+                    <div class="img-container"><img src="./images/transfer_result_max600KB/政毅＆美含-137.jpg" /></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
         // 測試 OK
         // setTimeout(() => {
-        //     window.location.href = "https://zealous-stone-0f4384600.4.azurestaticapps.net/";
-        // }, 3000)
+        //     window.location.href = " https://zealous-stone-0f4384600.4.azurestaticapps.net/"; // }, 3000) 
+        const img = document.querySelector('.hero-img');
+        const texts = document.querySelector('.hero-text');
+        const heroButton = document.querySelector('.hero-text-button');
+        // 確保圖片已經載入
+        if (img.complete) {
+            console.log('圖片已經載入');
+            // 如果圖片已經載入，直接執行動畫
+            gsap.to(img, { duration: 2, opacity: 1, ease: 'power1.out' });
+            gsap.to(texts, { duration: 2, opacity: 1, ease: 'power1.out' });
+            gsap.from(heroButton, {
+                y: 50, opacity: 0, duration: 2, ease: 'power1.out'
+            });
+        } else {
+            // 如果圖片尚未載入，監聽 load 事件
+            img.addEventListener('load', () => {
+                console.log('圖片已經載入 load');
+                gsap.to(img, { duration: 1.8, opacity: 1, ease: 'power1.out' });
+                gsap.to(texts, { duration: 1.5, opacity: 1, ease: 'power1.out', delay: 0.5 });
+            });
+        }
     </script>
+
 </body>
 
 </html>
