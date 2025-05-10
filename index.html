@@ -120,62 +120,76 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        ScrollTrigger.observe({
-            trigger: 'body',
-            type: "touch,pointer", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
-            onUp: () => { ScrollTrigger.update(); },
-        });
-
-        const header = document.querySelector(".header");
-        const img = document.querySelector(".hero-img");
-        const texts = document.querySelector(".hero-text");
-        const heroButton = document.querySelector(".hero-text-button");
-
-        const textAnimation = (element) => {
-            gsap.to(element, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: element,
-                    start: 'top 105%',
-                    toggleActions: 'play none none none',
-                    once: true,
-                },
-            });
+        // 節流
+        function throttle(func, delay) {
+            let lastCall = 0;
+            return function (...args) {
+                const now = Date.now();
+                if (now - lastCall >= delay) {
+                    lastCall = now;
+                    func.apply(this, args);
+                }
+            };
         }
-        gsap.utils.toArray('.title-wrapper').forEach((element) => {
-            console.log(element);
-            textAnimation(element);
-        });
 
-        const footerTextTitle = document.querySelector(".footer-text-title");
-        textAnimation(footerTextTitle);
+        // 寫一個 document readony 事件
+        document.addEventListener("DOMContentLoaded", function () {
+            gsap.registerPlugin(ScrollTrigger);
+            document.getElementsByTagName("body")[0].addEventListener("scroll", throttle(function (e) {
+                console.log("body scroll");
+                ScrollTrigger.update();
+            }, 100));
 
-        const animation = () => {
-            gsap.to(img, { duration: 2, opacity: 1, ease: "power1.out" });
-            gsap.to(texts, { duration: 2, opacity: 1, ease: "power1.out" });
-            gsap.from(heroButton, {
-                y: 100,
-                opacity: 0,
-                duration: 1.5,
-                ease: "power1.out",
+            const header = document.querySelector(".header");
+            const img = document.querySelector(".hero-img");
+            const texts = document.querySelector(".hero-text");
+            const heroButton = document.querySelector(".hero-text-button");
+
+            const textAnimation = (element) => {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 105%',
+                        toggleActions: 'play none none none',
+                    },
+                });
+            }
+            gsap.utils.toArray('.title-wrapper').forEach((element) => {
+                textAnimation(element);
             });
-            gsap.to(header, { duration: 1.5, opacity: 1, ease: "power1.out" });
-        };
-        // 確保圖片已經載入
-        if (img.complete) {
-            console.log("圖片已經載入");
-            animation();
-        } else {
-            img.addEventListener("load", () => {
-                console.log("圖片已經載入 load");
+
+            // 圖片顯示動畫
+            // gsap.utils.toArray('.images img').forEach((element) => {
+            //     textAnimation(element);
+            // });
+
+            const footerTextTitle = document.querySelector(".footer-text-title");
+            textAnimation(footerTextTitle);
+
+            const animation = () => {
+                gsap.to(img, { duration: 2, opacity: 1, ease: "power1.out" });
+                gsap.to(texts, { duration: 2, opacity: 1, ease: "power1.out" });
+                gsap.from(heroButton, {
+                    y: 100,
+                    opacity: 0,
+                    duration: 1.5,
+                    ease: "power1.out",
+                });
+                gsap.to(header, { duration: 1.5, opacity: 1, ease: "power1.out" });
+            };
+            // 確保圖片已經載入
+            if (img.complete) {
                 animation();
-            });
-        }
+            } else {
+                img.addEventListener("load", () => {
+                    animation();
+                });
+            }
+        });
     </script>
 </body>
 
