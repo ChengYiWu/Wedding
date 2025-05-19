@@ -239,7 +239,7 @@ img {
   margin-top: 2rem;
   margin-bottom: 1.5rem;
   padding: 1rem;
-  font-size: clamp(1rem, 5vw, 1.8rem);
+  font-size: clamp(1rem, 6vw, 1.8rem);
   color: #2b2422;
   font-family: "font1", Arial, sans-serif;
   opacity: 0;
